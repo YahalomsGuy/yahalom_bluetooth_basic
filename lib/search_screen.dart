@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
 class SearchScreen extends StatefulWidget {
   final FlutterBlue flutterBlue = FlutterBlue.instance;
-  final List<BluetoothDevice> devicesList = new List<BluetoothDevice>();
+  final List<BluetoothDevice> devicesList = [];
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
 
   @override
@@ -45,7 +44,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   ListView _buildListViewOfDevices() {
-    List<Container> containers = new List<Container>();
+    List<Container> containers = [];
     for (BluetoothDevice device in widget.devicesList) {
       //print('Device: ${device.id.toString()}');
       containers.add(
@@ -80,8 +79,11 @@ class _SearchScreenState extends State<SearchScreen> {
                           'Type: ${device.type.toString()}',
                           style: TextStyle(fontSize: 18),
                         ),
-                        FlatButton(
-                          color: Colors.green[800],
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.green[800]),
+                          ),
                           child: Text(
                             'Connect',
                             style: TextStyle(color: Colors.white),
@@ -123,7 +125,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List<ButtonTheme> _buildReadWriteNotifyButton(
       BluetoothCharacteristic characteristic) {
-    List<ButtonTheme> buttons = new List<ButtonTheme>();
+    List<ButtonTheme> buttons = [];
 
     if (characteristic.properties.read) {
       buttons.add(
@@ -132,8 +134,10 @@ class _SearchScreenState extends State<SearchScreen> {
           height: 20,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: RaisedButton(
-              color: Colors.blue,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blue),
+              ),
               child: Text('READ', style: TextStyle(color: Colors.white)),
               onPressed: () async {
                 var sub = characteristic.value.listen((value) {
@@ -157,8 +161,10 @@ class _SearchScreenState extends State<SearchScreen> {
           height: 20,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: RaisedButton(
-              color: Colors.red,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+              ),
               child: Text('WRITE', style: TextStyle(color: Colors.white)),
               onPressed: () async {
                 await showDialog(
@@ -176,7 +182,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ],
                         ),
                         actions: <Widget>[
-                          FlatButton(
+                          ElevatedButton(
                             child: Text("Send"),
                             onPressed: () {
                               characteristic.write(
@@ -184,7 +190,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               Navigator.pop(context);
                             },
                           ),
-                          FlatButton(
+                          ElevatedButton(
                             child: Text("Cancel"),
                             onPressed: () {
                               Navigator.pop(context);
@@ -206,8 +212,9 @@ class _SearchScreenState extends State<SearchScreen> {
           height: 20,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: RaisedButton(
-              color: Colors.orange,
+            child: ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.orange)),
               child: Text('NOTIFY', style: TextStyle(color: Colors.white)),
               onPressed: () async {
                 characteristic.value.listen((value) {
@@ -225,10 +232,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   ListView _buildConnectDeviceView() {
-    List<Container> containers = new List<Container>();
+    List<Container> containers = [];
 
     for (BluetoothService service in _services) {
-      List<Widget> characteristicsWidget = new List<Widget>();
+      List<Widget> characteristicsWidget = [];
 
       for (BluetoothCharacteristic characteristic in service.characteristics) {
         //print('UUID: ${service.uuid.toString()}');
