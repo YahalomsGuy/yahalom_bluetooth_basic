@@ -40,7 +40,11 @@ class _SearchScreenState extends State<SearchScreen> {
         _addDeviceToList(result.device);
       }
     });
-    widget.flutterBlue.startScan();
+    try {
+      widget.flutterBlue.startScan();
+    } catch (e) {
+      print(e);
+    }
   }
 
   ListView _buildListViewOfDevices() {
