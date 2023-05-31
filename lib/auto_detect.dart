@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class AutoDetect extends StatefulWidget {
-  final FlutterBlue flutterBlue = FlutterBlue.instance;
+  final FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
 
   @override
@@ -10,7 +10,7 @@ class AutoDetect extends StatefulWidget {
 }
 
 class _AutoDetectState extends State<AutoDetect> {
-  BluetoothDevice device;
+  late BluetoothDevice device;
   bool _connected = false;
 
   @override
@@ -18,7 +18,8 @@ class _AutoDetectState extends State<AutoDetect> {
     super.initState();
     widget.flutterBlue.scanResults.listen((List<ScanResult> results) {
       for (ScanResult result in results) {
-        print('Result: ${result.device.id}');
+
+        print('Result: $result');
         if (result.device.id.toString().substring(0, 7) == 'C1:1F:77') {
           print('Scan Result: ${result.device.id}');
           widget.flutterBlue.stopScan();

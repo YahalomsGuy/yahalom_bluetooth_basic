@@ -15,7 +15,7 @@ class MainMenu extends StatelessWidget {
                   size: 40,
                 ),
                 Text(
-                  'Guy\'s Bluetooth Experience',
+                  'Guy\'s BT Exp.',
                 ),
                 Icon(Icons.home, size: 40),
               ],

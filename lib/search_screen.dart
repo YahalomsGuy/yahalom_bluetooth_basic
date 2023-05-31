@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class SearchScreen extends StatefulWidget {
-  final FlutterBlue flutterBlue = FlutterBlue.instance;
+  final FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
   final List<BluetoothDevice> devicesList = [];
   final Map<Guid, List<int>> readValues = new Map<Guid, List<int>>();
 
@@ -14,8 +14,8 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final _writeController = TextEditingController();
-  BluetoothDevice _connectedDevice;
-  List<BluetoothService> _services;
+  late BluetoothDevice _connectedDevice;
+  late List<BluetoothService> _services;
 
   _addDeviceToList(final BluetoothDevice device) {
     if (!widget.devicesList.contains(device)) {
@@ -97,7 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             try {
                               await device.connect();
                             } catch (e) {
-                              if (e.code != 'already_connected') {
+                              if (e != 'already_connected') {
                                 throw e;
                               }
                             } finally {
